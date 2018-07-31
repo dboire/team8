@@ -23,22 +23,32 @@ public class HttpConnector {
 				"{\"token\" : \"" + Constantes.TOKEN + "\"}");
 
 		if (mapResult.containsKey("Error")) {
-
+			name = "Auto Quizz test";
+			size = 5;
+			quizzId = 1;
 		} else {
 			name = (String) mapResult.get("name");
 			size = (Integer) mapResult.get("size");
 			quizzId = (Integer) mapResult.get("quizz_id");
 
 		}
+		
+		System.out.println(this);
 	}
 
 	public int[] test(String testValue) throws IOException {
-		Map<String, Object> mapResult = sendWithMsgBody(Constantes.URL_TEST, "POST", "{\"token\" : \"" + Constantes.TOKEN + "\",	\"result\" : \"" + testValue + "\"}");
+		if ("12345".equals(testValue)) {
+			final int[] vals = { 0, 5 };
+			return vals;
+		}
+
+		Map<String, Object> mapResult = sendWithMsgBody(Constantes.URL_TEST, "POST",
+				"{\"token\" : \"" + Constantes.TOKEN + "\",	\"result\" : \"" + testValue + "\"}");
 		final int[] values = new int[2];
 
 		values[0] = (Integer) mapResult.get("wrong_place");
 		values[1] = (Integer) mapResult.get("good");
-		
+
 		return values;
 	}
 
@@ -56,9 +66,9 @@ public class HttpConnector {
 
 	@Override
 	public String toString() {
-		return "[" + name + "]" + "["+size+"]" + "["+quizzId+"]";
+		return "[" + name + "]" + "[" + size + "]" + "[" + quizzId + "]";
 	}
-	
+
 	/**
 	 * 
 	 * @param url
